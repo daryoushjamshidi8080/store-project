@@ -1,6 +1,7 @@
 from django import forms
 from .models import User
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
 class UserCreationForm(forms.ModelForm):
@@ -39,6 +40,9 @@ class UserCreationForm(forms.ModelForm):
 
 
 class UserChangeFrom(forms.ModelForm):
+    password = ReadOnlyPasswordHashField(
+        help_text='you can change the password using <a href="../password/">this form</a>.')
+
     class Meta:
         model = User
         fields = ('email', 'phone_number', 'full_name',
