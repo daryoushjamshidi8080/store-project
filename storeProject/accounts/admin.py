@@ -1,8 +1,20 @@
 from django.contrib import admin
-from .models import User
+from .models import User, OtpCode
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import UserCreationForm, UserChangeFrom
 from django.contrib.auth.models import Group
+
+
+@admin.register(OtpCode)
+class OtpCodeAdmin(admin.ModelAdmin):
+    list_display = ('phone_number', 'code', 'created')
+    search_fields = ('phone_number',)
+    ordering = ('-created',)
+    list_filter = ('created',)
+    fieldsets = (
+        (None, {'fields': ('phone_number', 'code')}),
+        ('Metadata', {'fields': ('created',)}),
+    )
 
 
 class UserAdmin(BaseUserAdmin):
