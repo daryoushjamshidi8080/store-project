@@ -7,10 +7,40 @@
 
 <div class="container">
     <h2>Register Page</h2>
-    <form action="" method="post">
+    <form action="" method="post" novalidate>
         {% csrf_token %}
 
-        {{ form.as_p }}
+
+        {% if form.errors %}
+            {% for field, error in form.errors.items%}
+                {% for err in error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        
+        {{ form.email.label }}
+        </br>
+        {{ form.email }}
+        </br>
+        </br>
+        {{ form.full_name.label }}
+        </br>
+        {{ form.full_name }}
+        </br>
+        </br>
+        {{ form.phone.label }}
+        </br>
+        {{ form.phone }}
+        </br>
+        </br>
+        {{ form.password.label }}
+        </br>
+        {{ form.password }}
+        </br>
+        </br>
 
         <input type="submit" value="Send" class="btn btn-primary">
     </form>

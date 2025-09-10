@@ -12,8 +12,8 @@ class OtpCodeAdmin(admin.ModelAdmin):
     ordering = ('-created',)
     list_filter = ('created',)
     fieldsets = (
-        (None, {'fields': ('phone_number', 'code')}),
-        ('Metadata', {'fields': ('created',)}),
+        ('Info Code ', {'fields': ('phone_number', 'code')},),
+        ('Metadata', {'fields': ('created',)},),
     )
 
 
