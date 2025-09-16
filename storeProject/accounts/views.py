@@ -57,3 +57,26 @@ class VerifyCodeView(View):
 
     def post(self, request):
         user_session = request.session['user_register_info']
+        code_instance = OtpCode.objects.get(phone_number=user_session['phone_number'])
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            if code_instance.code == cd['code']:
+                # create user 
+                User.objects.create_user(
+                    phone_number=user_session['phone_number'],
+                    email=user_session['email'],
+                    full_name=user_session['full_name'],
+                    password=user_session['password']
+                )
+                code_instance.delete()
+                messages.success(
+                    request, 'Your account has been created successfully', 'success')
+                return redirect('home:home')
+            else:
+                messages.error(request, 'The entered code is incorrect', 'danger')
+                return redirect('accounts:verify_code')
+            
+        return render(request, 'accounts/verify_code.html', {'form': form})    
+
+        
